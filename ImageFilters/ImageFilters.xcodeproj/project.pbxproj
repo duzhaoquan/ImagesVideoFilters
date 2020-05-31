@@ -31,6 +31,25 @@
 		6021B26224809CD5003441F8 /* Normal.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 6021B25E24809CD5003441F8 /* Normal.vsh */; };
 		60B081D3248256AA00006E53 /* ThreeScreen.sh in Resources */ = {isa = PBXBuildFile; fileRef = 60B081D2248256AA00006E53 /* ThreeScreen.sh */; };
 		60B081D624825B3600006E53 /* ThreeScreen.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 60B081D524825B3600006E53 /* ThreeScreen.fsh */; };
+		60ED6C03248346720009549B /* Cirlce.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 60ED6C01248346720009549B /* Cirlce.vsh */; };
+		60ED6C04248346720009549B /* Cirlce.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 60ED6C02248346720009549B /* Cirlce.fsh */; };
+		60ED6C0E248346840009549B /* TriangularMosaic.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 60ED6C06248346840009549B /* TriangularMosaic.fsh */; };
+		60ED6C0F248346840009549B /* TriangularMosaic.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 60ED6C07248346840009549B /* TriangularMosaic.vsh */; };
+		60ED6C10248346840009549B /* HexagonMosaic.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 60ED6C09248346840009549B /* HexagonMosaic.fsh */; };
+		60ED6C11248346840009549B /* HexagonMosaic.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 60ED6C0A248346840009549B /* HexagonMosaic.vsh */; };
+		60ED6C12248346840009549B /* Mosaic.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 60ED6C0C248346840009549B /* Mosaic.vsh */; };
+		60ED6C13248346840009549B /* Mosaic.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 60ED6C0D248346840009549B /* Mosaic.fsh */; };
+		60ED6C1524834D0F0009549B /* kunkun.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 60ED6C1424834D0F0009549B /* kunkun.jpg */; };
+		60ED6C2524837D0D0009549B /* SoulOut.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 60ED6C1724837D0D0009549B /* SoulOut.vsh */; };
+		60ED6C2624837D0D0009549B /* SoulOut.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 60ED6C1824837D0D0009549B /* SoulOut.fsh */; };
+		60ED6C2724837D0D0009549B /* ShineWhite.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 60ED6C1A24837D0D0009549B /* ShineWhite.vsh */; };
+		60ED6C2824837D0D0009549B /* ShineWhite.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 60ED6C1B24837D0D0009549B /* ShineWhite.fsh */; };
+		60ED6C2924837D0D0009549B /* Scale.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 60ED6C1D24837D0D0009549B /* Scale.vsh */; };
+		60ED6C2A24837D0D0009549B /* Scale.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 60ED6C1E24837D0D0009549B /* Scale.fsh */; };
+		60ED6C2B24837D0D0009549B /* Glitch.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 60ED6C2024837D0D0009549B /* Glitch.vsh */; };
+		60ED6C2C24837D0D0009549B /* Glitch.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 60ED6C2124837D0D0009549B /* Glitch.fsh */; };
+		60ED6C2D24837D0D0009549B /* Shake.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 60ED6C2324837D0D0009549B /* Shake.fsh */; };
+		60ED6C2E24837D0D0009549B /* Shake.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 60ED6C2424837D0D0009549B /* Shake.vsh */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +79,25 @@
 		6021B25E24809CD5003441F8 /* Normal.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Normal.vsh; sourceTree = "<group>"; };
 		60B081D2248256AA00006E53 /* ThreeScreen.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = ThreeScreen.sh; sourceTree = "<group>"; };
 		60B081D524825B3600006E53 /* ThreeScreen.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = ThreeScreen.fsh; sourceTree = "<group>"; };
+		60ED6C01248346720009549B /* Cirlce.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Cirlce.vsh; sourceTree = "<group>"; };
+		60ED6C02248346720009549B /* Cirlce.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Cirlce.fsh; sourceTree = "<group>"; };
+		60ED6C06248346840009549B /* TriangularMosaic.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = TriangularMosaic.fsh; sourceTree = "<group>"; };
+		60ED6C07248346840009549B /* TriangularMosaic.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = TriangularMosaic.vsh; sourceTree = "<group>"; };
+		60ED6C09248346840009549B /* HexagonMosaic.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = HexagonMosaic.fsh; sourceTree = "<group>"; };
+		60ED6C0A248346840009549B /* HexagonMosaic.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = HexagonMosaic.vsh; sourceTree = "<group>"; };
+		60ED6C0C248346840009549B /* Mosaic.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Mosaic.vsh; sourceTree = "<group>"; };
+		60ED6C0D248346840009549B /* Mosaic.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Mosaic.fsh; sourceTree = "<group>"; };
+		60ED6C1424834D0F0009549B /* kunkun.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = kunkun.jpg; sourceTree = "<group>"; };
+		60ED6C1724837D0D0009549B /* SoulOut.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = SoulOut.vsh; sourceTree = "<group>"; };
+		60ED6C1824837D0D0009549B /* SoulOut.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = SoulOut.fsh; sourceTree = "<group>"; };
+		60ED6C1A24837D0D0009549B /* ShineWhite.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ShineWhite.vsh; sourceTree = "<group>"; };
+		60ED6C1B24837D0D0009549B /* ShineWhite.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ShineWhite.fsh; sourceTree = "<group>"; };
+		60ED6C1D24837D0D0009549B /* Scale.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Scale.vsh; sourceTree = "<group>"; };
+		60ED6C1E24837D0D0009549B /* Scale.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Scale.fsh; sourceTree = "<group>"; };
+		60ED6C2024837D0D0009549B /* Glitch.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Glitch.vsh; sourceTree = "<group>"; };
+		60ED6C2124837D0D0009549B /* Glitch.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Glitch.fsh; sourceTree = "<group>"; };
+		60ED6C2324837D0D0009549B /* Shake.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Shake.fsh; sourceTree = "<group>"; };
+		60ED6C2424837D0D0009549B /* Shake.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Shake.vsh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +158,7 @@
 				600BF2FB247F4689005CEA9A /* timg.jpeg */,
 				600BF2FD247F4696005CEA9A /* image.jpg */,
 				600BF2FF247F46A0005CEA9A /* hulu.jpg */,
+				60ED6C1424834D0F0009549B /* kunkun.jpg */,
 			);
 			path = source;
 			sourceTree = "<group>";
@@ -127,6 +166,15 @@
 		6021B25824809CD5003441F8 /* Filter */ = {
 			isa = PBXGroup;
 			children = (
+				60ED6C1F24837D0D0009549B /* Glitch */,
+				60ED6C1C24837D0D0009549B /* scale */,
+				60ED6C2224837D0D0009549B /* Shake */,
+				60ED6C1924837D0D0009549B /* ShineWhite */,
+				60ED6C1624837D0D0009549B /* SoulOut */,
+				60ED6C08248346840009549B /* HexagonMosaic */,
+				60ED6C0B248346840009549B /* Mosaic */,
+				60ED6C05248346840009549B /* TriangularMosaic */,
+				60ED6C00248346720009549B /* Cirlce */,
 				60B081D12482565C00006E53 /* threeSreen */,
 				6021B25924809CD5003441F8 /* SplitScreen_2 */,
 				6021B25C24809CD5003441F8 /* normal */,
@@ -159,6 +207,87 @@
 				60B081D524825B3600006E53 /* ThreeScreen.fsh */,
 			);
 			path = threeSreen;
+			sourceTree = "<group>";
+		};
+		60ED6C00248346720009549B /* Cirlce */ = {
+			isa = PBXGroup;
+			children = (
+				60ED6C01248346720009549B /* Cirlce.vsh */,
+				60ED6C02248346720009549B /* Cirlce.fsh */,
+			);
+			path = Cirlce;
+			sourceTree = "<group>";
+		};
+		60ED6C05248346840009549B /* TriangularMosaic */ = {
+			isa = PBXGroup;
+			children = (
+				60ED6C06248346840009549B /* TriangularMosaic.fsh */,
+				60ED6C07248346840009549B /* TriangularMosaic.vsh */,
+			);
+			path = TriangularMosaic;
+			sourceTree = "<group>";
+		};
+		60ED6C08248346840009549B /* HexagonMosaic */ = {
+			isa = PBXGroup;
+			children = (
+				60ED6C09248346840009549B /* HexagonMosaic.fsh */,
+				60ED6C0A248346840009549B /* HexagonMosaic.vsh */,
+			);
+			path = HexagonMosaic;
+			sourceTree = "<group>";
+		};
+		60ED6C0B248346840009549B /* Mosaic */ = {
+			isa = PBXGroup;
+			children = (
+				60ED6C0C248346840009549B /* Mosaic.vsh */,
+				60ED6C0D248346840009549B /* Mosaic.fsh */,
+			);
+			path = Mosaic;
+			sourceTree = "<group>";
+		};
+		60ED6C1624837D0D0009549B /* SoulOut */ = {
+			isa = PBXGroup;
+			children = (
+				60ED6C1724837D0D0009549B /* SoulOut.vsh */,
+				60ED6C1824837D0D0009549B /* SoulOut.fsh */,
+			);
+			path = SoulOut;
+			sourceTree = "<group>";
+		};
+		60ED6C1924837D0D0009549B /* ShineWhite */ = {
+			isa = PBXGroup;
+			children = (
+				60ED6C1A24837D0D0009549B /* ShineWhite.vsh */,
+				60ED6C1B24837D0D0009549B /* ShineWhite.fsh */,
+			);
+			path = ShineWhite;
+			sourceTree = "<group>";
+		};
+		60ED6C1C24837D0D0009549B /* scale */ = {
+			isa = PBXGroup;
+			children = (
+				60ED6C1D24837D0D0009549B /* Scale.vsh */,
+				60ED6C1E24837D0D0009549B /* Scale.fsh */,
+			);
+			path = scale;
+			sourceTree = "<group>";
+		};
+		60ED6C1F24837D0D0009549B /* Glitch */ = {
+			isa = PBXGroup;
+			children = (
+				60ED6C2024837D0D0009549B /* Glitch.vsh */,
+				60ED6C2124837D0D0009549B /* Glitch.fsh */,
+			);
+			path = Glitch;
+			sourceTree = "<group>";
+		};
+		60ED6C2224837D0D0009549B /* Shake */ = {
+			isa = PBXGroup;
+			children = (
+				60ED6C2324837D0D0009549B /* Shake.fsh */,
+				60ED6C2424837D0D0009549B /* Shake.vsh */,
+			);
+			path = Shake;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -221,17 +350,36 @@
 			files = (
 				600BF2F1247F43DE005CEA9A /* LaunchScreen.storyboard in Resources */,
 				600BF300247F46A0005CEA9A /* hulu.jpg in Resources */,
+				60ED6C2C24837D0D0009549B /* Glitch.fsh in Resources */,
 				6021B26224809CD5003441F8 /* Normal.vsh in Resources */,
+				60ED6C2D24837D0D0009549B /* Shake.fsh in Resources */,
+				60ED6C0E248346840009549B /* TriangularMosaic.fsh in Resources */,
 				60B081D3248256AA00006E53 /* ThreeScreen.sh in Resources */,
+				60ED6C2524837D0D0009549B /* SoulOut.vsh in Resources */,
 				6021B26124809CD5003441F8 /* Normal.fsh in Resources */,
 				600BF310247FBC61005CEA9A /* FilterCollectionViewCell.xib in Resources */,
 				6021B26024809CD5003441F8 /* SplitScreen_2.vsh in Resources */,
 				600BF2EE247F43DE005CEA9A /* Assets.xcassets in Resources */,
 				6021B25F24809CD5003441F8 /* SplitScreen_2.fsh in Resources */,
+				60ED6C11248346840009549B /* HexagonMosaic.vsh in Resources */,
+				60ED6C2924837D0D0009549B /* Scale.vsh in Resources */,
+				60ED6C0F248346840009549B /* TriangularMosaic.vsh in Resources */,
 				600BF304247F9083005CEA9A /* OpenGLESFilterVC.xib in Resources */,
 				60B081D624825B3600006E53 /* ThreeScreen.fsh in Resources */,
+				60ED6C2B24837D0D0009549B /* Glitch.vsh in Resources */,
+				60ED6C1524834D0F0009549B /* kunkun.jpg in Resources */,
+				60ED6C2E24837D0D0009549B /* Shake.vsh in Resources */,
+				60ED6C04248346720009549B /* Cirlce.fsh in Resources */,
+				60ED6C2724837D0D0009549B /* ShineWhite.vsh in Resources */,
+				60ED6C03248346720009549B /* Cirlce.vsh in Resources */,
 				600BF2FC247F4689005CEA9A /* timg.jpeg in Resources */,
+				60ED6C2624837D0D0009549B /* SoulOut.fsh in Resources */,
+				60ED6C13248346840009549B /* Mosaic.fsh in Resources */,
 				600BF2EC247F43DB005CEA9A /* Main.storyboard in Resources */,
+				60ED6C12248346840009549B /* Mosaic.vsh in Resources */,
+				60ED6C2824837D0D0009549B /* ShineWhite.fsh in Resources */,
+				60ED6C10248346840009549B /* HexagonMosaic.fsh in Resources */,
+				60ED6C2A24837D0D0009549B /* Scale.fsh in Resources */,
 				600BF2FE247F4696005CEA9A /* image.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

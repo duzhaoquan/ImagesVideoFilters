@@ -14,6 +14,7 @@ struct FilterData {
     var fragName:String = ""
     var verString:String = ""
     var fragString:String = ""
+    var needTime = false
     
     var isselected = false
     

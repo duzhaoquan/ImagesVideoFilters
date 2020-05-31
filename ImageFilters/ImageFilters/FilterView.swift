@@ -18,26 +18,29 @@ class DQFilterView: UIView {
     
     var imageName = "image.jpg"
     private var filter : FilterView!
-    init(frame: CGRect,imageName:String,vertexShaderName:String,fragmentShaderName:String) {
+    init(frame: CGRect,vertexShaderName:String,fragmentShaderName:String) {
         super.init(frame: frame)
-        self.imageName = imageName
         self.vertexShaderName = vertexShaderName
         self.fragmentShaderName = fragmentShaderName
         
-        self.filter = FilterView(frame: bounds, imageName: imageName, vertexShaderName: vertexShaderName, fragmentShaderName: fragmentShaderName)
+        self.filter = FilterView(frame: bounds, vertexShaderName: vertexShaderName, fragmentShaderName: fragmentShaderName)
         self.addSubview(filter)
         
     }
-    func updateRender(){
+    func updateRender(time:Bool = false){
         filter.vertexShaderName = vertexShaderName
         filter.fragmentShaderName = fragmentShaderName
         filter.imageName = imageName
         filter.vertexShaderString = vertexShaderString
         filter.fragmentShaderString = fragmentShaderString
-        filter.renderLayer()
+        filter.renderLayer(time:time)
+        
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    deinit {
+        print("DQFilterView deinit")
     }
     
 }
@@ -85,14 +88,23 @@ private class FilterView: OGLESView {
     var vertexShaderString : String?
     var fragmentShaderString :String?
     
-    init(frame: CGRect,imageName:String,vertexShaderName:String,fragmentShaderName:String) {
+    var displylink:CADisplayLink?
+    var startTimeInterval :TimeInterval = 0
+    var program = GLuint()
+    
+    
+    init(frame: CGRect,vertexShaderName:String,fragmentShaderName:String) {
         super.init(frame: frame)
-        self.imageName = imageName
         self.vertexShaderName = vertexShaderName
         self.fragmentShaderName = fragmentShaderName
         
     }
-    
+    override func willMove(toSuperview newSuperview: UIView?) {
+        if newSuperview == nil {
+            displylink?.invalidate()
+            displylink = nil
+        }
+    }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -102,7 +114,28 @@ private class FilterView: OGLESView {
         renderLayer()
     }
     
-    func renderLayer() {
+    @objc func timeAnimation() {
+        if startTimeInterval == 0 {
+            startTimeInterval = Double(displylink!.timestamp)
+        }
+        let currenTtime :GLfloat = GLfloat(displylink!.timestamp - startTimeInterval)
+        //print("----time--\(currenTtime)---")
+        glUniform1f(glGetUniformLocation(program, "Time"), currenTtime)
+        glClear(GLbitfield(GL_COLOR_BUFFER_BIT))
+        glClearColor(1, 1, 1, 1);
+       
+        glDrawArrays(GLenum(GL_TRIANGLES), 0, 6)
+        context.presentRenderbuffer(Int(GL_RENDERBUFFER))
+    }
+    func renderLayer(time:Bool = false) {
+        if time {
+            if (displylink != nil) {
+                displylink?.invalidate()
+                displylink = nil
+            }
+            displylink = CADisplayLink(target: self, selector: #selector(timeAnimation))
+            displylink?.add(to: RunLoop.main, forMode: RunLoop.Mode.common)
+        }
         
         glClear(GLbitfield(GL_COLOR_BUFFER_BIT))
         var pro:GLuint?
@@ -116,7 +149,7 @@ private class FilterView: OGLESView {
         guard let program = pro else {
             return
         }
-        
+        self.program = program
         //6.处理定点数据（copy到缓冲区）
         glBufferData(GLenum(GL_ARRAY_BUFFER), MemoryLayout<GLfloat>.size * 30, vertexs, GLenum(GL_DYNAMIC_DRAW))
         
