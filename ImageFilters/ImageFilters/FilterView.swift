@@ -127,7 +127,7 @@ private class FilterView: OGLESView {
         glDrawArrays(GLenum(GL_TRIANGLES), 0, 6)
         context.presentRenderbuffer(Int(GL_RENDERBUFFER))
     }
-    func renderLayer(time:Bool = false) {
+    func renderLayer(time:Bool = false,autoPresent:Bool = true) {
         if time {
             if (displylink != nil) {
                 displylink?.invalidate()
@@ -163,11 +163,17 @@ private class FilterView: OGLESView {
         DQShaderUtil.setUpTextureImage(imageName: imageName)
         //10.设置纹理采样器
         glUniform1i(glGetUniformLocation(program, "TextureCoordsVarying"), 0)
+        
+        if autoPresent {
+            presentRender()
+        }
+        
+    }
+
+    func presentRender(){
         //11.绘制
         glDrawArrays(GLenum(GL_TRIANGLES), 0, 6)
         //12.提交
         context.presentRenderbuffer(Int(GL_RENDERBUFFER))
-        
     }
-
 }

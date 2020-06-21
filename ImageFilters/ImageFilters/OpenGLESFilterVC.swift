@@ -404,6 +404,53 @@ class OpenGLESFilterVC: UIViewController {
          }
          */
         filterDatas.append(FilterData(name: "灵魂出窍", verName: "SoulOut.vsh", fragName: "SoulOut.fsh",needTime: true))
+        
+        let CGAColorFragmentShader = """
+            precision highp float;
+            varying vec2 TextureCoordsVarying;
+            uniform sampler2D Texture;
+
+            void main()
+            {
+                vec2 sampleDivisor = vec2(1.0 / 200.0, 1.0 / 320.0);
+                //highp vec4 colorDivisor = vec4(colorDepth);
+                
+                vec2 samplePos = TextureCoordsVarying - mod(TextureCoordsVarying, sampleDivisor);
+                vec4 color = texture2D(Texture, samplePos );
+                
+                //gl_FragColor = texture2D(Texture, samplePos );
+                vec4 colorCyan = vec4(85.0 / 255.0, 1.0, 1.0, 1.0);
+                vec4 colorMagenta = vec4(1.0, 85.0 / 255.0, 1.0, 1.0);
+                vec4 colorWhite = vec4(1.0, 1.0, 1.0, 1.0);
+                vec4 colorBlack = vec4(0.0, 0.0, 0.0, 1.0);
+                
+                vec4 endColor;
+                float blackDistance = distance(color, colorBlack);
+                float whiteDistance = distance(color, colorWhite);
+                float magentaDistance = distance(color, colorMagenta);
+                float cyanDistance = distance(color, colorCyan);
+                
+                vec4 finalColor;
+                
+                float colorDistance = min(magentaDistance, cyanDistance);
+                colorDistance = min(colorDistance, whiteDistance);
+                colorDistance = min(colorDistance, blackDistance);
+                
+                if (colorDistance == blackDistance) {
+                    finalColor = colorBlack;
+                } else if (colorDistance == whiteDistance) {
+                    finalColor = colorWhite;
+                } else if (colorDistance == cyanDistance) {
+                    finalColor = colorCyan;
+                } else {
+                    finalColor = colorMagenta;
+                }
+                
+                gl_FragColor = finalColor;
+            }
+         """
+        
+        filterDatas.append(FilterData(name: "CGAColor",verString: verstr, fragString: CGAColorFragmentShader))
     }
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
@@ -425,9 +472,13 @@ class OpenGLESFilterVC: UIViewController {
             if filterData.fragString.count > 1{
                 self?.filterView.vertexShaderString = filterData.verString
                 self?.filterView.fragmentShaderString = filterData.fragString
+                self?.filterView.vertexShaderName = nil
+                self?.filterView.fragmentShaderName = nil
             }else{
                 self?.filterView.vertexShaderName = filterData.verName
                 self?.filterView.fragmentShaderName = filterData.fragName
+                self?.filterView.vertexShaderString = nil
+                self?.filterView.fragmentShaderString = nil
             }
 
             self?.filterView.updateRender(time: filterData.needTime)
