@@ -7,7 +7,10 @@
 //
 
 import UIKit
-
+/*
+ 前面几篇文章已经详细介绍了OpenGL以及OpenGL ES的基本使用、加载一张图片、加载三维立体图像等，学习使用OpenGL的最终主要目的就是处理图片滤镜，视频滤镜，
+ 常见的一些视频/图像的处理app基本上都是使用OpenGLES实现的，本篇介绍学习自定义一些常用滤镜以及实现原理，主要是顶点着色器程序和片元着色器程序，大部分色滤镜都是顶点着色器进行处理
+ */
 class OpenGLESFilterVC: UIViewController {
 
     var filterDatas = [FilterData]()
@@ -16,9 +19,69 @@ class OpenGLESFilterVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        /*
+         1.分屏滤镜，二三四六九分屏，分屏滤镜主要是改变像素的纹素，通过坐标显示对应映射坐标的纹素
+         */
         filterDatas.append(FilterData(name: "原图", verName: "Normal.vsh", fragName: "Normal.fsh",isselected: true))
         filterDatas.append(FilterData(name: "二分屏", verName: "SplitScreen_2.vsh", fragName: "SplitScreen_2.fsh"))
+        /*
+         分屏滤镜就是处理像素点映射到想要显示的像素点的纹素值，可以从顶点着色器处理也可以在片元着色器中处理
+         //二分屏顶点着色器代码：
+         attribute vec4 Position;
+         attribute vec2 TextureCoords;
+         varying vec2 TextureCoordsVarying;
+
+         void main (void) {
+             gl_Position = Position;
+             TextureCoordsVarying = TextureCoords;
+         }
+         //二分屏片元着色器代码：
+         precision highp float;
+         uniform sampler2D Texture;
+         varying highp vec2 TextureCoordsVarying;
+
+         void main() {
+             vec2 uv = TextureCoordsVarying.xy;
+             float y;
+             if (uv.y >= 0.0 && uv.y <= 0.5) {
+                 y = uv.y + 0.25;
+             } else {
+                 y = uv.y - 0.25;
+             }
+             gl_FragColor = texture2D(Texture, vec2(uv.x, y));
+         }
+         
+         */
         filterDatas.append(FilterData(name: "三分屏", verName: "ThreeScreen.sh", fragName: "ThreeScreen.fsh"))
+        /*
+         //三分屏顶点着色器代码
+         attribute vec4 Position;
+         attribute vec2 TextureCoords;
+         varying vec2 TextureCoordsVarying;
+
+         void main (void) {
+             gl_Position = Position;
+             TextureCoordsVarying = TextureCoords;
+         }
+         //三分屏片元着色器代码
+         uniform sampler2D Texture;
+         varying highp vec2 TextureCoordsVarying;
+
+         void main() {
+             vec2 uv = TextureCoordsVarying.xy;
+             float y;
+             if (uv.y >= 0.0 && uv.y <= 0.33) {
+                 y = uv.y + 0.33;
+             }else if (uv.y > 0.66 && uv.y <= 1.0){
+                 y = uv.y - 0.33;
+             }else{
+                 y = uv.y;
+             }
+             gl_FragColor = texture2D(Texture, vec2(uv.x, y));
+         }
+
+         */
+        //四分屏顶点着色器
         let verstr = """
              attribute vec4 Position;
              attribute vec2 TextureCoords;
@@ -28,6 +91,7 @@ class OpenGLESFilterVC: UIViewController {
              TextureCoordsVarying = TextureCoords;
              }
          """
+        //四分屏片元着色器程序代码
         let fragStr = """
             precision highp float;
             uniform sampler2D Texture;
@@ -52,6 +116,7 @@ class OpenGLESFilterVC: UIViewController {
             }
        """
         filterDatas.append(FilterData(name: "四分屏",verString: verstr, fragString: fragStr))
+        //六分屏片元着色器代码，顶点着色器和前面的一样
         let fsh6 = """
           precision highp float;
           uniform sampler2D Texture;
@@ -78,6 +143,7 @@ class OpenGLESFilterVC: UIViewController {
          }
          """
         filterDatas.append(FilterData(name: "六分屏",verString: verstr, fragString: fsh6))
+        //九分屏片元着色器程序代码
         let fsh9 = """
          precision highp float;
          uniform sampler2D Texture;
@@ -104,9 +170,14 @@ class OpenGLESFilterVC: UIViewController {
         }
         """
         filterDatas.append(FilterData(name: "九分屏",verString: verstr, fragString: fsh9))
-        //灰度，就是使rgb三色的平衡，0.2125, 0.7154, 0.0721，人眼对绿色比较敏感
         /*
-         1.浮点算法:Gray=R*0.3+G*0.59+B*0.11 2.整数⽅方法:Gray=(R*30+G*59+B*11)/100 3.移位⽅方法:Gray =(R*76+G*151+B*28)>>8; 4.平均值法:Gray=(R+G+B)/3; 5.仅取绿⾊色:Gray=G
+         2.灰度滤镜，就是使rgb三色的平衡，0.2125, 0.7154, 0.0721，人眼对绿色比较敏感，所以绿色值更大一些
+         灰度滤镜有多种实现方法：
+         1.浮点算法:Gray=R*0.3+G*0.59+B*0.11
+         2.整数⽅方法:Gray=(R*30+G*59+B*11)/100
+         3.移位⽅方法:Gray =(R*76+G*151+B*28)>>8;
+         4.平均值法:Gray=(R+G+B)/3;
+         5.仅取绿⾊色:Gray=G
          */
         let maskFsh = """
         precision highp float;
@@ -122,6 +193,9 @@ class OpenGLESFilterVC: UIViewController {
         """
        filterDatas.append(FilterData(name: "灰度",verString: verstr, fragString: maskFsh))
         /*
+         2.漩涡滤镜，给定中心点、半径，旋转角度，距离中心点约近旋转角度越大，坐标某点的颜色值等于旋转之后的纹素颜色值
+         图像漩涡主要是在某个半径范围里，把当前采样点旋转 ⼀定⻆角度，旋转以后当前点的颜色就被旋转后的点的颜色代替，因此整个半径范围里会有旋转的效果。如果旋 转的时候旋转⻆角度随着当前点离半径的距离递减，整个图像就会出现漩涡效果。这⾥使⽤了了抛物线递减因 子:(1.0-(r/Radius)*(r/Radius))。
+         //漩涡滤镜片元着色器代码：
          precision mediump float; //PI
          const float PI = 3.14159265; //纹理理采样器器
          uniform sampler2D Texture; //旋转⻆角度
@@ -153,6 +227,8 @@ class OpenGLESFilterVC: UIViewController {
          */
         filterDatas.append(FilterData(name: "漩涡", verName: "Cirlce.vsh", fragName: "Cirlce.fsh"))
         /*
+         3.马赛克滤镜，马赛克滤镜就是某一小半径大小的圆内的颜色值的相同，都取圆心的颜色值，马赛克效果就是把图片的一个相当⼤⼩的区域⽤同一个 点的颜色来表示.可以认为是大规模的降低图像的分辨 率,⽽而让图像的⼀一些细节隐藏起来。
+         //马赛克滤镜片元着色器代码：
          on mediump float;
          //纹理理坐标
          varying vec2 TextureCoordsVarying; //纹理理采样器器
@@ -178,8 +254,144 @@ class OpenGLESFilterVC: UIViewController {
          */
         filterDatas.append(FilterData(name: "马赛克", verName: "Mosaic.vsh", fragName: "Mosaic.fsh"))
         /*
-         思路路: 我们要做的效果就是让⼀一张图⽚片，分割成由六边形组成，让每 个六边形中的颜⾊色相同(直接取六边形中⼼心点像素RGB较⽅方便便，我们 这⾥里里采⽤用的就是这种⽅方法)
-         将它进⾏行行分割，取每个六边形的中⼼心点画出⼀一个矩阵，
+         4.六边形马赛克
+         滤镜实现思路: 我们要做的效果就是让一张图片，分割成由六边形组成，让每个六边形中的颜色相同(直接取六边形中⼼点像素RGB较⽅便，我们 这里采⽤的就是这种⽅方法)将它进⾏行行分割，取每个六边形的中⼼点画出⼀个六边形，如下图：
+         
+         如上图，画出很多长和宽比例为 2:√3 的的矩形阵。然后我们可以对每个点进行编号，如上图中，采⽤用坐标系标记.
+         假如我们的屏幕的左上点为上图的(0,0)点，则屏幕上的任⼀点我们找到它所对应的那个矩形了了。
+         假定我们设定的矩阵⽐例例为 2*LEN : √3*LEN ，那么屏幕上的任意 点(x, y)所对应的矩阵坐标为(int(x/(2*LEN)), int(y/ (√3*LEN)))。
+         //wx,wy -> 表示纹理坐标在所对应的矩阵坐标为
+         int wx = int(x /( 1.5 * length)); int wy = int(y /(TR * length));
+         //六边形马赛克片元着色器代码
+         precision highp float;
+         uniform sampler2D Texture;
+         varying vec2 TextureCoordsVarying;
+
+         const float mosaicSize = 0.03;
+
+         void main (void)
+         {
+             float length = mosaicSize;
+             float TR = 0.866025;
+             
+             float x = TextureCoordsVarying.x;
+             float y = TextureCoordsVarying.y;
+             
+             int wx = int(x / 1.5 / length);
+             int wy = int(y / TR / length);
+             vec2 v1, v2, vn;
+             
+             if (wx/2 * 2 == wx) {
+                 if (wy/2 * 2 == wy) {
+                     //(0,0),(1,1)
+                     v1 = vec2(length * 1.5 * float(wx), length * TR * float(wy));
+                     v2 = vec2(length * 1.5 * float(wx + 1), length * TR * float(wy + 1));
+                 } else {
+                     //(0,1),(1,0)
+                     v1 = vec2(length * 1.5 * float(wx), length * TR * float(wy + 1));
+                     v2 = vec2(length * 1.5 * float(wx + 1), length * TR * float(wy));
+                 }
+             }else {
+                 if (wy/2 * 2 == wy) {
+                     //(0,1),(1,0)
+                     v1 = vec2(length * 1.5 * float(wx), length * TR * float(wy + 1));
+                     v2 = vec2(length * 1.5 * float(wx + 1), length * TR * float(wy));
+                 } else {
+                     //(0,0),(1,1)
+                     v1 = vec2(length * 1.5 * float(wx), length * TR * float(wy));
+                     v2 = vec2(length * 1.5 * float(wx + 1), length * TR * float(wy + 1));
+                 }
+             }
+             
+             float s1 = sqrt(pow(v1.x - x, 2.0) + pow(v1.y - y, 2.0));
+             float s2 = sqrt(pow(v2.x - x, 2.0) + pow(v2.y - y, 2.0));
+             if (s1 < s2) {
+                 vn = v1;
+             } else {
+                 vn = v2;
+             }
+             vec4 color = texture2D(Texture, vn);
+             
+             gl_FragColor = color;
+             
+         }
+         5.三角形马赛克
+         三角形马赛克和六边形马赛克原理类是，理解了六边形马赛克实现原理，三角形就是把六边形分成了六个三角形，每个三角形内的颜色值取同一个。
+         //三角形马赛克的片元着色器代码：
+         precision highp float;
+         uniform sampler2D Texture;
+         varying vec2 TextureCoordsVarying;
+
+         float mosaicSize = 0.03;
+
+         void main (void){
+             const float TR = 0.866025;
+             const float PI6 = 0.523599;
+             
+             float x = TextureCoordsVarying.x;
+             float y = TextureCoordsVarying.y;
+             
+          
+             int wx = int(x/(1.5 * mosaicSize));
+             int wy = int(y/(TR * mosaicSize));
+             
+             vec2 v1, v2, vn;
+             
+             if (wx / 2 * 2 == wx) {
+                 if (wy/2 * 2 == wy) {
+                     v1 = vec2(mosaicSize * 1.5 * float(wx), mosaicSize * TR * float(wy));
+                     v2 = vec2(mosaicSize * 1.5 * float(wx + 1), mosaicSize * TR * float(wy + 1));
+                 } else {
+                     v1 = vec2(mosaicSize * 1.5 * float(wx), mosaicSize * TR * float(wy + 1));
+                     v2 = vec2(mosaicSize * 1.5 * float(wx + 1), mosaicSize * TR * float(wy));
+                 }
+             } else {
+                 if (wy/2 * 2 == wy) {
+                     v1 = vec2(mosaicSize * 1.5 * float(wx), mosaicSize * TR * float(wy + 1));
+                     v2 = vec2(mosaicSize * 1.5 * float(wx+1), mosaicSize * TR * float(wy));
+                 } else {
+                     v1 = vec2(mosaicSize * 1.5 * float(wx), mosaicSize * TR * float(wy));
+                     v2 = vec2(mosaicSize * 1.5 * float(wx + 1), mosaicSize * TR * float(wy+1));
+                 }
+             }
+
+             float s1 = sqrt(pow(v1.x - x, 2.0) + pow(v1.y - y, 2.0));
+             float s2 = sqrt(pow(v2.x - x, 2.0) + pow(v2.y - y, 2.0));
+
+             if (s1 < s2) {
+                 vn = v1;
+             } else {
+                 vn = v2;
+             }
+             
+             vec4 mid = texture2D(Texture, vn);
+             float a = atan((x - vn.x)/(y - vn.y));
+
+             vec2 area1 = vec2(vn.x, vn.y - mosaicSize * TR / 2.0);
+             vec2 area2 = vec2(vn.x + mosaicSize / 2.0, vn.y - mosaicSize * TR / 2.0);
+             vec2 area3 = vec2(vn.x + mosaicSize / 2.0, vn.y + mosaicSize * TR / 2.0);
+             vec2 area4 = vec2(vn.x, vn.y + mosaicSize * TR / 2.0);
+             vec2 area5 = vec2(vn.x - mosaicSize / 2.0, vn.y + mosaicSize * TR / 2.0);
+             vec2 area6 = vec2(vn.x - mosaicSize / 2.0, vn.y - mosaicSize * TR / 2.0);
+             
+
+             if (a >= PI6 && a < PI6 * 3.0) {
+                 vn = area1;
+             } else if (a >= PI6 * 3.0 && a < PI6 * 5.0) {
+                 vn = area2;
+             } else if ((a >= PI6 * 5.0 && a <= PI6 * 6.0) || (a < -PI6 * 5.0 && a > -PI6 * 6.0)) {
+                 vn = area3;
+             } else if (a < -PI6 * 3.0 && a >= -PI6 * 5.0) {
+                 vn = area4;
+             } else if(a <= -PI6 && a> -PI6 * 3.0) {
+                 vn = area5;
+             } else if (a > -PI6 && a < PI6) {
+                 vn = area6;
+             }
+             
+             vec4 color = texture2D(Texture, vn);
+             gl_FragColor = color;
+         }
          */
         filterDatas.append(FilterData(name: "六马赛克", verName: "HexagonMosaic.vsh", fragName: "HexagonMosaic.fsh"))
         filterDatas.append(FilterData(name: "三马赛克", verName: "TriangularMosaic.vsh", fragName: "TriangularMosaic.fsh"))

@@ -21,6 +21,7 @@ struct FilterData {
     
 }
 
+/// 创建滤镜选择条，某一滤镜点击后切换成该滤镜效果处理后的图像显示
 class FIlterBar: UIView {
 
     var selectedBlock:((_ index:IndexPath) -> Void)?
