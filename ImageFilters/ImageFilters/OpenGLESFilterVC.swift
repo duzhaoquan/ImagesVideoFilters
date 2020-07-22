@@ -8,8 +8,8 @@
 
 import UIKit
 /*
- 前面几篇文章已经详细介绍了OpenGL以及OpenGL ES的基本使用、加载一张图片、加载三维立体图像等，学习使用OpenGL的最终主要目的就是处理图片滤镜，视频滤镜，
- 常见的一些视频/图像的处理app基本上都是使用OpenGLES实现的，本篇介绍学习自定义一些常用滤镜以及实现原理，主要是顶点着色器程序和片元着色器程序，大部分色滤镜都是顶点着色器进行处理
+ 上篇介绍了常见的一些处理图片的滤镜，都是基于静态图片为基础做的，本篇介绍一些机遇视频的滤镜，引入一个时间变量time作为模拟视频中的时间参数。
+ 
  */
 class OpenGLESFilterVC: UIViewController {
 
@@ -396,8 +396,9 @@ class OpenGLESFilterVC: UIViewController {
         filterDatas.append(FilterData(name: "六马赛克", verName: "HexagonMosaic.vsh", fragName: "HexagonMosaic.fsh"))
         filterDatas.append(FilterData(name: "三马赛克", verName: "TriangularMosaic.vsh", fragName: "TriangularMosaic.fsh"))
         /*
-         //顶点坐标/纹理坐标映射关系.放大?
-         //放大过程. 顶点着色器完成.
+         1.缩放滤镜，一个时间循环中随时间放大缩小，通过修改顶点坐标和纹理坐标的映射关系来实现放大效果
+         
+         //放大过程.在顶点着色器完成.代码如下：
 
          //顶点坐标
          attribute vec4 Position;
@@ -432,7 +433,8 @@ class OpenGLESFilterVC: UIViewController {
          */
         filterDatas.append(FilterData(name: "scale", verName: "Scale.vsh", fragName: "Scale.fsh",needTime: true))
         /*
-         //抖动滤镜: 颜色偏移 + 微弱的放大效果
+         //抖动滤镜: 颜色偏移 + 微弱的放大效果，某一区域内的颜色值取便宜之后对应的颜色值和放大效果叠加呈现出抖动的效果
+         抖动滤镜的片元着色器代码：
          precision highp float;
          //纹理
          uniform sampler2D Texture;
@@ -479,7 +481,8 @@ class OpenGLESFilterVC: UIViewController {
         filterDatas.append(FilterData(name: "shake", verName: "Shake.vsh", fragName: "Shake.fsh",needTime: true))
         /*
          
-         //闪白滤镜: 添加白色图层 ,白色图层的透明度随着时间变化
+         //3.闪白滤镜: 添加白色图层 ,白色图层的透明度随着时间变化
+         闪白滤镜片元着色器程序代码：
          precision highp float;
          //纹理采样器
          uniform sampler2D Texture;
@@ -509,8 +512,9 @@ class OpenGLESFilterVC: UIViewController {
          */
         filterDatas.append(FilterData(name: "闪白", verName: "ShineWhite.vsh", fragName: "ShineWhite.fsh",needTime: true))
         /*
-         //毛刺滤镜: 撕裂 + 微弱的颜色偏移
-         //具体的思路是，我们让每一行像素随机偏移 -1 ~ 1 的距离（这里的 -1 ~ 1 是对于纹理坐标来说的），但是如果整个画面都偏移比较大的值，那我们可能都看不出原来图像的样子。所以我们的逻辑是，设定一个阈值，小于这个阈值才进行偏移，超过这个阈值则乘上一个缩小系数。则最终呈现的效果是：绝大部分的行都会进行微小的偏移，只有少量的行会进行较大偏移
+         4.毛刺滤镜: 撕裂 + 微弱的颜色偏移
+         具体的思路是，我们让每一行像素随机偏移 -1 ~ 1 的距离（这里的 -1 ~ 1 是对于纹理坐标来说的），但是如果整个画面都偏移比较大的值，那我们可能都看不出原来图像的样子。所以我们的逻辑是，设定一个阈值，小于这个阈值才进行偏移，超过这个阈值则乘上一个缩小系数。则最终呈现的效果是：绝大部分的行都会进行微小的偏移，只有少量的行会进行较大偏移
+         片元着色器程序代码：
          precision highp float;
          //纹理
          uniform sampler2D Texture;
@@ -571,7 +575,8 @@ class OpenGLESFilterVC: UIViewController {
          */
         filterDatas.append(FilterData(name: "毛刺", verName: "Glitch.vsh", fragName: "Glitch.fsh",needTime: true))
         /*
-         //灵魂出窍滤镜: 是两个层的叠加，并且上面的那层随着时间的推移，会逐渐放大且不透明度逐渐降低。这里也用到了放大的效果，我们这次用片段着色器来实现
+         5.灵魂出窍滤镜: 是两个层的叠加，并且上面的那层随着时间的推移，会逐渐放大且不透明度逐渐降低。这里也用到了放大的效果，我们这次用片段着色器来实现
+         灵魂出窍效果片元着色器代码：
 
          precision highp float;
          //纹理采样器

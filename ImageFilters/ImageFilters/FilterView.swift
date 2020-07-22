@@ -70,7 +70,7 @@ private class FilterView: OGLESView {
                 let scaleF = CGFloat(frame.height)/CGFloat(frame.width)
                 let scaleI = CGFloat(height)/CGFloat(width)
 
-                imageScale = scaleF>scaleI ? (1,scaleI/scaleF) : (scaleI/scaleF,1)
+                imageScale = scaleF>scaleI ? (1,scaleI/scaleF) : (scaleF/scaleI,1)
             }
             for (i,v) in vertexs.enumerated(){
                 if i % 5 == 0 {
